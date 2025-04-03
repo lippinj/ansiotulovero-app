@@ -1,3 +1,4 @@
+/** Map {k: v} to {k: pred(v)} */
 export function mapValues<V, V2>(
   record: Record<string, V>,
   pred: (value: V) => V2,
