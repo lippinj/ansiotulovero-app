@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-
-function removePrefix(s: string, prefix: string) {
-  return s.startsWith(prefix) ? s.substr(prefix.length) : s;
-}
-
-function removeSuffix(s: string, suffix: string) {
-  return s.endsWith(suffix) ? s.substr(0, s.length - suffix.length) : s;
-}
+import { removePrefix, removeSuffix } from "./string";
 
 export class DataSource {
   readonly prefix: string;
@@ -22,7 +15,10 @@ export class DataSource {
   }
 }
 
-export function useJsonData(url: string, dataSource?: DataSource) {
+export function useJsonData<T>(
+  url: string,
+  dataSource?: DataSource,
+): [T | null, React.ReactNode] {
   url = dataSource ? dataSource.fullUrl(url) : url;
 
   const [json, setJson] = useState(null);
