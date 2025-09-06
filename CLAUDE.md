@@ -1,6 +1,10 @@
 # Tooling context
 
-This is a simple web app.
+This is a web app for drawing and analyzing the effective income tax rate
+schedule in Finland.
+
+The app is in Finnish, but development is in English.
+The detailed specification lives in `DESIGN.md`.
 
 ## Development fundamentals
 
