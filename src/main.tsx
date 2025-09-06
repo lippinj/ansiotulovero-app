@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App.tsx";
 
 const router = createBrowserRouter([{ path: "/", element: <App /> }], {
-  basename: "/",
+  basename: import.meta.env.BASE_URL,
 });
 
 const root = createRoot(document.getElementById("root")!);

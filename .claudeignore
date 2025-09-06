@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.git/
+*.log
+.DS_Store
+package-lock.json
+.env
+.env.local
+.env.production
+coverage/
+.nyc_output/
+*.tsbuildinfo

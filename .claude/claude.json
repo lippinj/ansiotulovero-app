@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "edit": "prettier --write {file} && eslint --fix {file}"
+  }
+}
