@@ -124,13 +124,39 @@ and public health insurance contribution.
 Its maximum amount is 3225 euros,
 except for those 65 years or older, for whom it is 4425 euros.
 Additionally, the maximum amount is increased by 50 euros
-for each dependent child.
+for each dependent child; this increase is doubled for single parents.
 Its basic amount is either 18% of your work income
 or the aforementioned maximum amount,
 whichever is smaller.
-The basic amount is reduced by 2.22% for pure earned income
-between 24250 euros and 42550 euros,
-and 3.44% for pure earned income above 42550 euros,
+The basic amount is reduced as follows:
+- by 2.22% of the portion of pure earned income between 24250 and 42550 euros,
+- by 3.44% of the portion of pure earned income above 42550 euros,
 down to a minimum of zero.
+(Note: the reductions are cumulative - if pure earned income exceeds 42550 euros,
+both the 2.22% reduction on the 24250-42550 portion AND the 3.44% reduction
+on the above-42550 portion apply.)
 
 Deductions cannot reduce a number below zero.
+
+### Expected changes in 2026
+
+The pension contribution rises to 7.30% and will be the same for everybody.
+
+The unemployment insurance contribution rises to 0.89%.
+
+The state income tax will change to the following:
+- 12.64% from 0k
+- 19% from 22k
+- 30.25% from 32.7k
+- 33.25% from 40.2k
+- 37.5% from 52.1k
+
+The additional pension income tax becomes 4% above 57k.
+
+The base amount of the basic deduction rises to 4270 euros.
+
+The work income deduction is changed as follows:
+- Dependents increase the maximum amount by 105.
+- The maximum increases to 3435 euros.
+- The reduction is 2% for pure earned income between 35k and 50.45k.
+  There is no second tier for reduction, that is, some amount of deduction persists forever.

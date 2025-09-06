@@ -1,3 +1,73 @@
+import React, { useState } from "react";
+import { TaxSystemControl } from "./components/TaxSystemControl";
+import { TaxParameters, taxParameterPresets } from "./tax/TaxParameters";
+import {
+  DemographicsControl,
+  UserInputs,
+  defaultUserInputs,
+} from "./components/DemographicsControl";
+import { CalculationResults } from "./components/CalculationResults";
+import { TaxRateChartPanel } from "./components/TaxRateChartPanel";
+import { PageTitle } from "./components/PageTitle";
+
 export default function App() {
-  return <div>Hello, world!</div>;
+  const [currentSystemKey, setCurrentSystemKey] = useState<string>("2026");
+  const [referenceSystemKey, setReferenceSystemKey] = useState<string>("2025");
+
+  const currentParameters = taxParameterPresets[currentSystemKey].parameters;
+  const referenceParameters =
+    taxParameterPresets[referenceSystemKey].parameters;
+  const [inputs, setInputs] = useState<UserInputs>(defaultUserInputs);
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-4 py-8">
+        <PageTitle>Ansiotuloveron asteikko</PageTitle>
+
+        <div className="space-y-8">
+          <TaxRateChartPanel
+            demographics={inputs.demographics}
+            currentSystemKey={currentSystemKey}
+            referenceSystemKey={referenceSystemKey}
+            onDemographicsChange={(field, value) => {
+              setInputs({
+                ...inputs,
+                demographics: { ...inputs.demographics, [field]: value },
+              });
+            }}
+            onCurrentSystemChange={setCurrentSystemKey}
+            onReferenceSystemChange={setReferenceSystemKey}
+          />
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <TaxSystemControl
+              title="Nykyiset parametrit"
+              parameters={currentParameters}
+              onParametersChange={(params) => {
+                // Create a new preset entry or update existing one
+                // For now, we'll just update the parameters directly
+                taxParameterPresets[currentSystemKey] = {
+                  ...taxParameterPresets[currentSystemKey],
+                  parameters: params,
+                };
+              }}
+            />
+
+            <TaxSystemControl
+              title="Vertailuparametrit"
+              parameters={referenceParameters}
+              onParametersChange={(params) => {
+                // Create a new preset entry or update existing one
+                // For now, we'll just update the parameters directly
+                taxParameterPresets[referenceSystemKey] = {
+                  ...taxParameterPresets[referenceSystemKey],
+                  parameters: params,
+                };
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
