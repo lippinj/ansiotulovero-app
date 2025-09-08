@@ -36,34 +36,6 @@ export default function App() {
             onCurrentSystemChange={setCurrentSystemKey}
             onReferenceSystemChange={setReferenceSystemKey}
           />
-
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <TaxSystemControl
-              title="Nykyiset parametrit"
-              parameters={currentParameters}
-              onParametersChange={(params) => {
-                // Create a new preset entry or update existing one
-                // For now, we'll just update the parameters directly
-                taxParameterPresets[currentSystemKey] = {
-                  ...taxParameterPresets[currentSystemKey],
-                  parameters: params,
-                };
-              }}
-            />
-
-            <TaxSystemControl
-              title="Vertailuparametrit"
-              parameters={referenceParameters}
-              onParametersChange={(params) => {
-                // Create a new preset entry or update existing one
-                // For now, we'll just update the parameters directly
-                taxParameterPresets[referenceSystemKey] = {
-                  ...taxParameterPresets[referenceSystemKey],
-                  parameters: params,
-                };
-              }}
-            />
-          </div>
         </div>
       </div>
     </div>

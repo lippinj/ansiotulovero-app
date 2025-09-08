@@ -12,12 +12,14 @@ import {
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxSystem } from "../tax/TaxSystem";
+import { ChartTitle } from "../base/components/ChartTitle";
 
 interface Props {
   demographics: TaxpayerCharacteristics;
   currentTaxSystem: TaxSystem;
   referenceTaxSystem: TaxSystem;
   incomeType: "work" | "pension";
+  timeframe: "annual" | "monthly";
 }
 
 interface ChartDataPoint {
@@ -33,16 +35,19 @@ export function TaxRateChart({
   currentTaxSystem,
   referenceTaxSystem,
   incomeType,
+  timeframe,
 }: Props) {
+  const maxIncome = timeframe === "monthly" ? 15000 : 180000;
+  const incomeStep = timeframe === "monthly" ? 10 : 120;
   const chartData = useMemo(() => {
     const data: ChartDataPoint[] = [];
 
-    // Generate data points from 0 to 180,000 in steps of 120
-    for (let income = 0; income <= 180000; income += 120) {
+    for (let income = 0; income <= maxIncome; income += incomeStep) {
+      const annualIncome = timeframe === "monthly" ? income * 12 : income;
       const incomeComponents =
         incomeType === "work"
-          ? new IncomeComponents(income, 0, 0)
-          : new IncomeComponents(0, income, 0);
+          ? new IncomeComponents(annualIncome, 0, 0)
+          : new IncomeComponents(0, annualIncome, 0);
       const currentResult = currentTaxSystem.calculate(
         demographics,
         incomeComponents
@@ -62,15 +67,16 @@ export function TaxRateChart({
     }
 
     return data;
-  }, [demographics, currentTaxSystem, referenceTaxSystem, incomeType]);
+  }, [demographics, currentTaxSystem, referenceTaxSystem, incomeType, timeframe, maxIncome, incomeStep]);
 
   const xAxisTicks = useMemo(() => {
     const ticks = [];
-    for (let i = 0; i <= 180000; i += 10000) {
+    const tickSpacing = timeframe === "monthly" ? 1000 : 10000;
+    for (let i = 0; i <= maxIncome; i += tickSpacing) {
       ticks.push(i);
     }
     return ticks;
-  }, []);
+  }, [timeframe, maxIncome]);
 
   const formatTooltip = (value: number, name: string) => {
     if (name === "income") {
@@ -90,87 +96,94 @@ export function TaxRateChart({
   };
 
   return (
-    <div className="h-128">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          data={chartData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 30,
-            bottom: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="income"
-            tickFormatter={formatXAxisTick}
-            domain={[0, 180000]}
-            ticks={xAxisTicks}
-            label={{
-              value: "Ansiotulot yhteensä",
-              position: "insideBottom",
-              offset: -10,
+    <div>
+      <div className="h-128">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 30,
+              bottom: 20,
             }}
-          />
-          <YAxis
-            domain={[0, 60]}
-            tickFormatter={(value) => `${value}%`}
-            ticks={[0, 10, 20, 30, 40, 50, 60]}
-          />
-          <Tooltip
-            formatter={formatTooltip}
-            labelFormatter={(value) =>
-              `Ansiotulo: ${Number(value).toLocaleString("fi-FI")} €`
-            }
-          />
-          <Legend verticalAlign="top" height={36} />
-          <Line
-            type="monotone"
-            dataKey="currentMarginalTaxRate"
-            stroke="firebrick"
-            strokeWidth={2}
-            dot={false}
-            legendType="plainline"
-            name="Rajaveroaste"
-            isAnimationActive={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="referenceMarginalTaxRate"
-            stroke="firebrick"
-            strokeWidth={2}
-            strokeOpacity={0.5}
-            strokeDasharray="3 3"
-            dot={false}
-            legendType="none"
-            name="Rajaveroaste"
-            isAnimationActive={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="currentEffectiveTaxRate"
-            stroke="navy"
-            strokeWidth={2}
-            dot={false}
-            legendType="plainline"
-            name="Keskimääräinen veroaste"
-            isAnimationActive={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="referenceEffectiveTaxRate"
-            stroke="navy"
-            strokeWidth={2}
-            strokeOpacity={0.5}
-            strokeDasharray="3 3"
-            dot={false}
-            legendType="none"
-            name="Kokonaisveroaste"
-            isAnimationActive={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="income"
+              tickFormatter={formatXAxisTick}
+              domain={[0, maxIncome]}
+              ticks={xAxisTicks}
+              label={{
+                value: `Ansiotulot yhteensä (eur/${timeframe === "monthly" ? "kk" : "v"})`,
+                position: "insideBottom",
+                offset: -10,
+              }}
+            />
+            <YAxis
+              domain={[0, 60]}
+              ticks={[0, 10, 20, 30, 40, 50, 60]}
+              label={{
+                value: "Veroaste (%)",
+                angle: -90,
+                position: "insideLeft",
+                style: { textAnchor: "middle" },
+              }}
+            />
+            <Tooltip
+              formatter={formatTooltip}
+              labelFormatter={(value) =>
+                `Ansiotulo: ${Number(value).toLocaleString("fi-FI")} €/${timeframe === "monthly" ? "kk" : "v"}`
+              }
+            />
+            <Legend verticalAlign="top" height={36} />
+            <Line
+              type="monotone"
+              dataKey="currentMarginalTaxRate"
+              stroke="firebrick"
+              strokeWidth={2}
+              dot={false}
+              legendType="plainline"
+              name="Rajaveroaste"
+              isAnimationActive={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="referenceMarginalTaxRate"
+              stroke="firebrick"
+              strokeWidth={2}
+              strokeOpacity={0.5}
+              strokeDasharray="3 3"
+              dot={false}
+              legendType="none"
+              name="Rajaveroaste"
+              isAnimationActive={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="currentEffectiveTaxRate"
+              stroke="navy"
+              strokeWidth={2}
+              dot={false}
+              legendType="plainline"
+              name="Keskimääräinen veroaste"
+              isAnimationActive={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="referenceEffectiveTaxRate"
+              stroke="navy"
+              strokeWidth={2}
+              strokeOpacity={0.5}
+              strokeDasharray="3 3"
+              dot={false}
+              legendType="none"
+              name="Kokonaisveroaste"
+              isAnimationActive={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

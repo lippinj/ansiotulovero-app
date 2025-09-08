@@ -29,6 +29,7 @@ export function TaxRateChartPanel({
   onReferenceSystemChange,
 }: Props) {
   const [incomeType, setIncomeType] = useState<"work" | "pension">("work");
+  const [timeframe, setTimeframe] = useState<"annual" | "monthly">("annual");
 
   const currentTaxSystem = new TaxSystem(
     taxParameterPresets[currentSystemKey].parameters
@@ -46,12 +47,21 @@ export function TaxRateChartPanel({
           onDemographicsChange={onDemographicsChange}
           onIncomeTypeChange={setIncomeType}
         />
+        <TaxSystemSelector
+          currentSystemKey={currentSystemKey}
+          referenceSystemKey={referenceSystemKey}
+          onCurrentSystemChange={onCurrentSystemChange}
+          onReferenceSystemChange={onReferenceSystemChange}
+          timeframe={timeframe}
+          onTimeframeChange={setTimeframe}
+        />
 
         <TaxRateChart
           demographics={demographics}
           currentTaxSystem={currentTaxSystem}
           referenceTaxSystem={referenceTaxSystem}
           incomeType={incomeType}
+          timeframe={timeframe}
         />
 
         <NetIncomeChangeChart
@@ -59,13 +69,7 @@ export function TaxRateChartPanel({
           currentTaxSystem={currentTaxSystem}
           referenceTaxSystem={referenceTaxSystem}
           incomeType={incomeType}
-        />
-
-        <TaxSystemSelector
-          currentSystemKey={currentSystemKey}
-          referenceSystemKey={referenceSystemKey}
-          onCurrentSystemChange={onCurrentSystemChange}
-          onReferenceSystemChange={onReferenceSystemChange}
+          timeframe={timeframe}
         />
       </div>
     </Panel>
