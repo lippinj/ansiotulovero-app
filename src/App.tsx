@@ -9,8 +9,9 @@ import { TaxRateChartPanel } from "./components/TaxRateChartPanel";
 import { PageTitle } from "./base/components/PageTitle";
 
 export default function App() {
-  const [currentSystemKey, setCurrentSystemKey] = useState<string>("2026");
-  const [referenceSystemKey, setReferenceSystemKey] = useState<string>("2025");
+  const [referenceSystemKey, setReferenceSystemKey] =
+    useState<string>("2026_base");
+  const [currentSystemKey, setCurrentSystemKey] = useState<string>("2026_he");
 
   const currentParameters = taxParameterPresets[currentSystemKey].parameters;
   const referenceParameters =

@@ -66,59 +66,81 @@ export interface TaxParameterPresets {
   [key: string]: TaxParameterPreset;
 }
 
+const kParams2025 = {
+  pensionStandardRate: 7.15,
+  pensionSeniorRate: 8.65,
+
+  unemploymentRate: 0.59,
+
+  illnessRate: 0.84,
+  illnessThreshold: 16862,
+  healthWorkRate: 1.06,
+  healthOtherRate: 1.45,
+
+  stateIncomeTaxBrackets: [
+    { min: 0, max: 21200, rate: 12.64 },
+    { min: 21200, max: 31500, rate: 19 },
+    { min: 31500, max: 52100, rate: 30.25 },
+    { min: 52100, max: 88200, rate: 34 },
+    { min: 88200, max: 150000, rate: 41.75 },
+    { min: 150000, max: Infinity, rate: 44.25 },
+  ],
+
+  municipalRate: 7.54,
+  churchRate: 1.38,
+
+  radioRate: 2.5,
+  radioThreshold: 14000,
+  radioMaxTax: 163,
+
+  pensionAdditionalRate: 5.85,
+  pensionAdditionalThreshold: 47000,
+
+  naturalDeductionMin: 750,
+
+  pensionDeductionBase: 11030,
+  pensionDeductionReductionRate: 51,
+
+  basicDeductionBase: 4115,
+  basicDeductionReductionRate: 18,
+
+  workDeductionEnabled: true,
+  workDeductionRate: 18,
+  workDeductionStandardMax: 3225,
+  workDeductionSeniorMax: 4425,
+  workDeductionChildBonus: 50,
+  workDeductionReductionRate1: 2.22,
+  workDeductionReductionThreshold1: 24250,
+  workDeductionReductionThreshold2: 42550,
+  workDeductionReductionRate2: 3.44,
+
+  unionFeeDeductible: true,
+};
+
+const kParams2026Base = {
+  ...kParams2025,
+  pensionStandardRate: 7.3,
+  pensionSeniorRate: 7.3,
+  unemploymentRate: 0.89,
+};
+
 export const taxParameterPresets: TaxParameterPresets = {
   "2025": {
     name: "2025",
-    description: "2025 toteutunut",
-    parameters: {
-      pensionStandardRate: 7.15,
-      pensionSeniorRate: 8.65,
-      unemploymentRate: 0.59,
-      illnessRate: 0.84,
-      illnessThreshold: 16862,
-      stateIncomeTaxBrackets: [
-        { min: 0, max: 21200, rate: 12.64 },
-        { min: 21200, max: 31500, rate: 19 },
-        { min: 31500, max: 52100, rate: 30.25 },
-        { min: 52100, max: 88200, rate: 34 },
-        { min: 88200, max: 150000, rate: 41.75 },
-        { min: 150000, max: Infinity, rate: 44.25 },
-      ],
-      municipalRate: 7.54,
-      churchRate: 1.38,
-      healthWorkRate: 1.06,
-      healthOtherRate: 1.45,
-      radioRate: 2.5,
-      radioThreshold: 14000,
-      radioMaxTax: 163,
-      pensionAdditionalRate: 5.85,
-      pensionAdditionalThreshold: 47000,
-      naturalDeductionMin: 750,
-      pensionDeductionBase: 11030,
-      pensionDeductionReductionRate: 51,
-      basicDeductionBase: 4115,
-      basicDeductionReductionRate: 18,
-      workDeductionRate: 18,
-      workDeductionStandardMax: 3225,
-      workDeductionSeniorMax: 4425,
-      workDeductionChildBonus: 50,
-      workDeductionReductionRate1: 2.22,
-      workDeductionReductionThreshold1: 24250,
-      workDeductionReductionThreshold2: 42550,
-      workDeductionReductionRate2: 3.44,
-      workDeductionEnabled: true,
-      unionFeeDeductible: true,
-    },
+    description: "2025",
+    parameters: kParams2025,
   },
-  "2026": {
-    name: "2026",
-    description: "2026 esitys",
+  "2026_base": {
+    name: "2026 pohja",
+    description: "2026 pohja",
+    parameters: kParams2026Base,
+  },
+  "2026_he": {
+    name: "2026 hallituksen esitys",
+    description: "2026 hallituksen esitys",
     parameters: {
-      pensionStandardRate: 7.3,
-      pensionSeniorRate: 7.3,
-      unemploymentRate: 0.89,
-      illnessRate: 0.84,
-      illnessThreshold: 16862,
+      ...kParams2026Base,
+
       stateIncomeTaxBrackets: [
         { min: 0, max: 22000, rate: 12.64 },
         { min: 22000, max: 32700, rate: 19 },
@@ -126,20 +148,18 @@ export const taxParameterPresets: TaxParameterPresets = {
         { min: 40200, max: 52100, rate: 33.25 },
         { min: 52100, max: Infinity, rate: 37.5 },
       ],
-      municipalRate: 7.54,
-      churchRate: 1.38,
-      healthWorkRate: 1.06,
-      healthOtherRate: 1.45,
-      radioRate: 2.5,
-      radioThreshold: 14000,
-      radioMaxTax: 163,
+
+      radioMaxTax: 160,
+
       pensionAdditionalRate: 4.0,
       pensionAdditionalThreshold: 57000,
-      naturalDeductionMin: 750,
+
       pensionDeductionBase: 11030,
       pensionDeductionReductionRate: 51,
+
       basicDeductionBase: 4270,
       basicDeductionReductionRate: 18,
+
       workDeductionRate: 18,
       workDeductionStandardMax: 3435,
       workDeductionSeniorMax: 3435,
@@ -148,8 +168,29 @@ export const taxParameterPresets: TaxParameterPresets = {
       workDeductionReductionThreshold1: 35000,
       workDeductionReductionThreshold2: 50450,
       workDeductionReductionRate2: 0,
-      workDeductionEnabled: true,
+
       unionFeeDeductible: false,
+    },
+  },
+  "2026_a": {
+    name: "2026 a",
+    description: "2026 vaihtoehto A",
+    parameters: {
+      ...kParams2026Base,
+
+      stateIncomeTaxBrackets: [
+        { min: 0, max: 36000, rate: 35 },
+        { min: 36000, max: Infinity, rate: 42 },
+      ],
+
+      radioMaxTax: 0,
+
+      pensionDeductionBase: 0,
+
+      basicDeductionBase: 21000,
+      basicDeductionReductionRate: 0,
+
+      workDeductionEnabled: false,
     },
   },
 };
