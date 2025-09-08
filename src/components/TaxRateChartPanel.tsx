@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { taxParameterPresets } from "../tax/TaxParameters";
 import { TaxSystem } from "../tax/TaxSystem";
-import { Panel } from "./Panel";
+import { Panel } from "../base/components/Panel";
 import { TaxRateChartConfig } from "./TaxRateChartConfig";
 import { TaxSystemSelector } from "./TaxSystemSelector";
 import { TaxRateChart } from "./TaxRateChart";

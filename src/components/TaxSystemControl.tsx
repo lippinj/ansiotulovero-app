@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { TaxParameters, taxParameterPresets } from "../tax/TaxParameters";
 import { TaxBracket } from "../tax/TaxParameters";
-import { InputTable, InputTableRow, InputTableContainer } from "./InputTable";
+import { InputTable, InputTableRow, InputTableContainer } from "../base/components/InputTable";
 import { TaxBracketEditor } from "./TaxBracketEditor";
-import { InlineInput } from "./InlineInput";
+import { InlineInput } from "../base/components/InlineInput";
 import { CollapsibleSection } from "./CollapsibleSection";
-import { Panel } from "./Panel";
+import { Panel } from "../base/components/Panel";
 
 
 interface Props {

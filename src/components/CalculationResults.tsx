@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxParameters } from "../tax/TaxParameters";
 import { TaxSystem } from "../tax/TaxSystem";
-import { Panel } from "./Panel";
+import { Panel } from "../base/components/Panel";
 
 interface Props {
   title?: string;
@@ -18,7 +18,6 @@ export function CalculationResults({
   income,
   parameters,
 }: Props) {
-  
   const taxSystem = new TaxSystem(parameters);
   const result = taxSystem.calculate(demographics, income);
 
@@ -52,10 +51,7 @@ export function CalculationResults({
   );
 
   return (
-    <Panel 
-      title={title}
-      defaultExpanded={false}
-    >
+    <Panel title={title} defaultExpanded={false}>
       <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-gray-50 p-4 rounded">

@@ -1,7 +1,8 @@
 import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
-import { InlineInput } from "./InlineInput";
-import { InputGroup, InputGroupItem } from "./InputGroup";
+import { InlineInput } from "../base/components/InlineInput";
+import { InputGroup, InputGroupItem } from "../base/components/InputGroup";
+import { FoldoutPane } from "../base/components/FoldoutPane";
 
 interface Props {
   demographics: TaxpayerCharacteristics;
@@ -13,6 +14,43 @@ interface Props {
   onIncomeTypeChange: (incomeType: "work" | "pension") => void;
 }
 
+interface ConfigSummaryProps {
+  demographics: TaxpayerCharacteristics;
+  incomeType: "work" | "pension";
+}
+
+function ConfigSummary({ demographics, incomeType }: ConfigSummaryProps) {
+  const getSummaryText = () => {
+    let text = "";
+    text += `${demographics.age}v `;
+    text += incomeType === "work" ? "palkansaaja" : "eläkkeensaaja";
+    text += demographics.isChurchMember
+      ? ", kuuluu kirkkoon"
+      : ", ei kuulu kirkkoon";
+
+    if (demographics.dependentChildren > 0) {
+      text += `, ${demographics.dependentChildren} lapsen`;
+      if (demographics.isSingleParent) {
+        text += " yksinhuoltaja";
+      } else {
+        text += " huoltaja";
+      }
+    } else {
+      text += ", ei huollettavia";
+    }
+
+    if (demographics.isUnionMember) {
+      text += `, ammattiliiton jäsenmaksu ${demographics.unionFeePercentage}%`;
+    } else {
+      text += ", ei kuulu liittoon";
+    }
+
+    return text;
+  };
+
+  return <div className="text-sm text-gray-700">{getSummaryText()}</div>;
+}
+
 export function TaxRateChartConfig({
   demographics,
   incomeType,
@@ -20,7 +58,8 @@ export function TaxRateChartConfig({
   onIncomeTypeChange,
 }: Props) {
   return (
-    <div className="p-4 bg-gray-50 rounded">
+    <FoldoutPane toggleTitle="Muokkaa asetuksia">
+      <ConfigSummary demographics={demographics} incomeType={incomeType} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <InputGroup title="Perustiedot">
           <InputGroupItem label="Verovelvollinen">
@@ -106,11 +145,14 @@ export function TaxRateChartConfig({
             </label>
           </InputGroupItem>
           {demographics.isUnionMember && (
-            <InputGroupItem label="Ammattiliiton jäsenmaksu">
+            <InputGroupItem label="Jäsenmaksu työtulosta">
               <InlineInput
                 value={demographics.unionFeePercentage}
                 onChange={(value) =>
-                  onDemographicsChange("unionFeePercentage", Math.max(0, value))
+                  onDemographicsChange(
+                    "unionFeePercentage",
+                    Math.max(0, value)
+                  )
                 }
                 unit="%"
                 step={0.1}
@@ -120,6 +162,6 @@ export function TaxRateChartConfig({
           )}
         </InputGroup>
       </div>
-    </div>
+    </FoldoutPane>
   );
 }

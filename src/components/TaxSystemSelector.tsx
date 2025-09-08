@@ -30,7 +30,7 @@ export function TaxSystemSelector({
         ))}
       </select>
 
-      <span className="text-lg font-medium text-gray-600">→</span>
+      <span className="text-lg font-bold text-gray-600">→</span>
 
       <select
         value={currentSystemKey}

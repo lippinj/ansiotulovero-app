@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "file_changed": [
+      {
+        "pattern": "**/*.{ts,tsx}",
+        "command": "npm run lint -- --fix",
+        "description": "Run ESLint with auto-fix on TypeScript files"
+      },
+      {
+        "pattern": "**/*.{ts,tsx}",
+        "command": "npx prettier --write",
+        "description": "Format TypeScript files with Prettier"
+      }
+    ],
+    "file_created": [
+      {
+        "pattern": "**/*.{ts,tsx}",
+        "command": "npm run lint -- --fix",
+        "description": "Run ESLint with auto-fix on new TypeScript files"
+      },
+      {
+        "pattern": "**/*.{ts,tsx}",
+        "command": "npx prettier --write",
+        "description": "Format new TypeScript files with Prettier"
+      }
+    ]
+  }
+}

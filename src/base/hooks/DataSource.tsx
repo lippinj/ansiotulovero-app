@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { removePrefix, removeSuffix } from "./string";
+import { removePrefix, removeSuffix } from "../utils/string";
 
 export class DataSource {
   readonly prefix: string;
@@ -17,7 +17,7 @@ export class DataSource {
 
 export function useJsonData<T>(
   url: string,
-  dataSource?: DataSource,
+  dataSource?: DataSource
 ): [T | null, React.ReactNode] {
   url = dataSource ? dataSource.fullUrl(url) : url;
 

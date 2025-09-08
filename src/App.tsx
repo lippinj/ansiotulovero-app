@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { TaxSystemControl } from "./components/TaxSystemControl";
-import { TaxParameters, taxParameterPresets } from "./tax/TaxParameters";
+import { taxParameterPresets } from "./tax/TaxParameters";
 import {
-  DemographicsControl,
   UserInputs,
   defaultUserInputs,
 } from "./components/DemographicsControl";
-import { CalculationResults } from "./components/CalculationResults";
 import { TaxRateChartPanel } from "./components/TaxRateChartPanel";
-import { PageTitle } from "./components/PageTitle";
+import { PageTitle } from "./base/components/PageTitle";
 
 export default function App() {
   const [currentSystemKey, setCurrentSystemKey] = useState<string>("2026");

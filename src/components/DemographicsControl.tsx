@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
-import { InputTable, InputTableRow, InputTableContainer } from "./InputTable";
-import { InlineInput } from "./InlineInput";
-import { Panel } from "./Panel";
+import {
+  InputTable,
+  InputTableRow,
+  InputTableContainer,
+} from "../base/components/InputTable";
+import { InlineInput } from "../base/components/InlineInput";
+import { Panel } from "../base/components/Panel";
 
 export interface UserInputs {
   demographics: TaxpayerCharacteristics;
@@ -28,7 +32,6 @@ interface Props {
 }
 
 export function DemographicsControl({ inputs, onInputsChange }: Props) {
-
   const handleDemographicsChange = (
     field: keyof TaxpayerCharacteristics,
     value: any
@@ -52,10 +55,7 @@ export function DemographicsControl({ inputs, onInputsChange }: Props) {
   };
 
   return (
-    <Panel 
-      title="Henkilötiedot ja tulot"
-      defaultExpanded={false}
-    >
+    <Panel title="Henkilötiedot ja tulot" defaultExpanded={false}>
       <div className="space-y-4">
         <InputTableContainer>
           <InputTable title="Henkilötiedot">
