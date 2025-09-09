@@ -3,6 +3,7 @@ import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { taxParameterPresets } from "../tax/TaxParameters";
 import { TaxSystem } from "../tax/TaxSystem";
 import { Panel } from "../base/components/Panel";
+import { FoldoutPaneGroup } from "../base/components/FoldoutPaneGroup";
 import { TaxRateChartConfig } from "./TaxRateChartConfig";
 import { TaxSystemSelector } from "./TaxSystemSelector";
 import { TaxRateChart } from "./TaxRateChart";
@@ -41,20 +42,22 @@ export function TaxRateChartPanel({
   return (
     <Panel expandable={false}>
       <div className="space-y-2">
-        <TaxRateChartConfig
-          demographics={demographics}
-          incomeType={incomeType}
-          onDemographicsChange={onDemographicsChange}
-          onIncomeTypeChange={setIncomeType}
-        />
-        <TaxSystemSelector
-          currentSystemKey={currentSystemKey}
-          referenceSystemKey={referenceSystemKey}
-          onCurrentSystemChange={onCurrentSystemChange}
-          onReferenceSystemChange={onReferenceSystemChange}
-          timeframe={timeframe}
-          onTimeframeChange={setTimeframe}
-        />
+        <FoldoutPaneGroup>
+          <TaxRateChartConfig
+            demographics={demographics}
+            incomeType={incomeType}
+            onDemographicsChange={onDemographicsChange}
+            onIncomeTypeChange={setIncomeType}
+          />
+          <TaxSystemSelector
+            currentSystemKey={currentSystemKey}
+            referenceSystemKey={referenceSystemKey}
+            onCurrentSystemChange={onCurrentSystemChange}
+            onReferenceSystemChange={onReferenceSystemChange}
+            timeframe={timeframe}
+            onTimeframeChange={setTimeframe}
+          />
+        </FoldoutPaneGroup>
 
         <TaxRateChart
           demographics={demographics}

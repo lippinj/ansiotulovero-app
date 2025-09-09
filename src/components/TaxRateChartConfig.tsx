@@ -58,7 +58,7 @@ export function TaxRateChartConfig({
   onIncomeTypeChange,
 }: Props) {
   return (
-    <FoldoutPane toggleTitle="Muokkaa asetuksia">
+    <FoldoutPane toggleTitle="Muokkaa asetuksia" groupId="config">
       <ConfigSummary demographics={demographics} incomeType={incomeType} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <InputGroup title="Perustiedot">

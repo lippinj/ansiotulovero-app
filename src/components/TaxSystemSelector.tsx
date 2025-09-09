@@ -48,7 +48,7 @@ export function TaxSystemSelector({
   const systemKeys = Object.keys(taxParameterPresets);
 
   return (
-    <FoldoutPane toggleTitle="Muokkaa verojärjestelmää ja aikaväliä">
+    <FoldoutPane toggleTitle="Muokkaa verojärjestelmää ja aikaväliä" groupId="selector">
       <SelectorSummary
         currentSystemKey={currentSystemKey}
         referenceSystemKey={referenceSystemKey}

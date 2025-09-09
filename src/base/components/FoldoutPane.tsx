@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFoldoutPaneGroup } from './FoldoutPaneGroup';
 
 export interface FoldoutPaneProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ export interface FoldoutPaneProps {
   className?: string;
   coverClassName?: string;
   leafClassName?: string;
+  groupId?: string;
 }
 
 export function FoldoutPane({
@@ -17,9 +19,20 @@ export function FoldoutPane({
   toggleTitle,
   className = "bg-gray-50 rounded",
   coverClassName = "flex items-center justify-between p-4",
-  leafClassName = "border-t border-gray-200 p-4"
+  leafClassName = "border-t border-gray-200 p-4",
+  groupId
 }: FoldoutPaneProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const groupContext = useFoldoutPaneGroup();
+  
+  const isGrouped = groupId && groupContext;
+  const actualIsOpen = isGrouped ? groupContext.openPane === groupId : isOpen;
+  
+  useEffect(() => {
+    if (isGrouped && defaultOpen) {
+      groupContext.setOpenPane(groupId);
+    }
+  }, [isGrouped, defaultOpen, groupId, groupContext]);
 
   const childrenArray = React.Children.toArray(children);
   const cover = childrenArray[0];
@@ -31,7 +44,13 @@ export function FoldoutPane({
       <div className={coverClassName}>
         {cover}
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            if (isGrouped) {
+              groupContext.setOpenPane(actualIsOpen ? null : groupId);
+            } else {
+              setIsOpen(!isOpen);
+            }
+          }}
           className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-all duration-200 px-3 py-1 rounded"
           title={toggleTitle}
         >
@@ -40,7 +59,7 @@ export function FoldoutPane({
       </div>
 
       {/* Leaf section - toggleable */}
-      {isOpen && (
+      {actualIsOpen && (
         <div className={leafClassName}>
           {leaf}
         </div>
