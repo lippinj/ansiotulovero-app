@@ -182,16 +182,18 @@ export const taxParameterPresets: TaxParameterPresets = {
       ...kParams2026Base,
 
       stateIncomeTaxBrackets: [
-        { min: 0, max: 36000, rate: 35 },
-        { min: 36000, max: Infinity, rate: 42 },
+        { min: 0, max: 40000, rate: 35 },
+        { min: 40000, max: Infinity, rate: 42 },
       ],
 
       radioMaxTax: 0,
 
       pensionDeductionBase: 0,
 
-      basicDeductionBase: 21000,
+      basicDeductionBase: 15000,
       basicDeductionReductionRate: 0,
+
+      earnedIncomeDeduction: 6000,
 
       workDeductionEnabled: false,
     },

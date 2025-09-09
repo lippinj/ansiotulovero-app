@@ -149,10 +149,7 @@ export function TaxRateChartConfig({
               <InlineInput
                 value={demographics.unionFeePercentage}
                 onChange={(value) =>
-                  onDemographicsChange(
-                    "unionFeePercentage",
-                    Math.max(0, value)
-                  )
+                  onDemographicsChange("unionFeePercentage", Math.max(0, value))
                 }
                 unit="%"
                 step={0.1}

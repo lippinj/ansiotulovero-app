@@ -26,14 +26,13 @@ function SelectorSummary({
   const currentDescription = taxParameterPresets[currentSystemKey].description;
   const referenceDescription =
     taxParameterPresets[referenceSystemKey].description;
-  const timeText = timeframe === "annual" ? "eur/v" : "eur/kk";
+  const timeText = timeframe === "annual" ? "vuosi" : "kuukausi";
 
   return (
     <div className="text-sm text-gray-700">
-      Veroasteikon vertailu:{" "}
-      <span className="font-bold">{referenceDescription}</span> vs.{" "}
-      <span className="font-bold">{currentDescription}</span>. Kuvaaja{" "}
-      {timeText}.
+      Katkoviiva: <span className="font-bold">{referenceDescription}</span>.
+      Kiinteä viiva: <span className="font-bold">{currentDescription}</span>.
+      Aikayksikkö: {timeText}.
     </div>
   );
 }
@@ -56,8 +55,8 @@ export function TaxSystemSelector({
         timeframe={timeframe}
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <InputGroup title="Vertailujärjestelmä">
-          <InputGroupItem label="Lähtötilanne">
+        <InputGroup title="Katkoviiva">
+          <InputGroupItem label="Vertailun pohjana oleva järjestelmä">
             <select
               value={referenceSystemKey}
               onChange={(e) => onReferenceSystemChange(e.target.value)}
@@ -72,8 +71,8 @@ export function TaxSystemSelector({
           </InputGroupItem>
         </InputGroup>
 
-        <InputGroup title="Nykyinen järjestelmä">
-          <InputGroupItem label="Muutos">
+        <InputGroup title="Kiinteä viiva">
+          <InputGroupItem label="Vaihtoehtoinen (uusi) järjestelmä">
             <select
               value={currentSystemKey}
               onChange={(e) => onCurrentSystemChange(e.target.value)}
@@ -89,7 +88,7 @@ export function TaxSystemSelector({
         </InputGroup>
 
         <InputGroup title="Aikaväli">
-          <InputGroupItem label="Tulot esitetään">
+          <InputGroupItem label="Esityksen aikayksikkö">
             <select
               value={timeframe}
               onChange={(e) =>
@@ -97,8 +96,8 @@ export function TaxSystemSelector({
               }
               className="text-xs border border-gray-300 rounded px-2 py-1 w-full"
             >
-              <option value="annual">Vuosittain</option>
-              <option value="monthly">Kuukausittain</option>
+              <option value="annual">Vuosi</option>
+              <option value="monthly">Kuukausi</option>
             </select>
           </InputGroupItem>
         </InputGroup>
