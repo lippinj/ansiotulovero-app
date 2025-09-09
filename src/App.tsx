@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TaxSystemControl } from "./components/TaxSystemControl";
+import { TaxSystemControl } from "./components/tax-system-control/TaxSystemControl";
 import { taxParameterPresets } from "./tax/TaxParameters";
 import {
   UserInputs,
@@ -40,7 +40,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
             <TaxSystemControl
-              title={`Vertailujärjestelmä: ${taxParameterPresets[referenceSystemKey].description}`}
+              title={`Parametrit, ${taxParameterPresets[referenceSystemKey].description}`}
               parameters={referenceParameters}
               onParametersChange={(params) => {
                 taxParameterPresets[referenceSystemKey] = {
@@ -51,7 +51,7 @@ export default function App() {
             />
 
             <TaxSystemControl
-              title={`Vaihtoehtoinen järjestelmä: ${taxParameterPresets[currentSystemKey].description}`}
+              title={`Parametrit, ${taxParameterPresets[currentSystemKey].description}`}
               parameters={currentParameters}
               onParametersChange={(params) => {
                 taxParameterPresets[currentSystemKey] = {

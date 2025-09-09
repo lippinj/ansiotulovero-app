@@ -12,7 +12,6 @@ import {
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxSystem } from "../tax/TaxSystem";
-import { ChartTitle } from "../base/components/ChartTitle";
 
 interface Props {
   demographics: TaxpayerCharacteristics;
@@ -67,7 +66,15 @@ export function TaxRateChart({
     }
 
     return data;
-  }, [demographics, currentTaxSystem, referenceTaxSystem, incomeType, timeframe, maxIncome, incomeStep]);
+  }, [
+    demographics,
+    currentTaxSystem,
+    referenceTaxSystem,
+    incomeType,
+    timeframe,
+    maxIncome,
+    incomeStep,
+  ]);
 
   const xAxisTicks = useMemo(() => {
     const ticks = [];
