@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { TaxParameters, taxParameterPresets } from "../tax/TaxParameters";
 import { TaxBracket } from "../tax/TaxParameters";
 import { InputTable, InputTableRow, InputTableContainer } from "../base/components/InputTable";
 import { TaxBracketEditor } from "./TaxBracketEditor";
 import { InlineInput } from "../base/components/InlineInput";
-import { CollapsibleSection } from "./CollapsibleSection";
 import { Panel } from "../base/components/Panel";
-
+import { FoldoutPane } from "../base/components/FoldoutPane";
+import { FoldoutPaneGroup } from "../base/components/FoldoutPaneGroup";
 
 interface Props {
   title?: string;
@@ -14,16 +14,12 @@ interface Props {
   onParametersChange: (parameters: TaxParameters) => void;
 }
 
-export function TaxSystemControl({ title = "Verojärjestelmän parametrit", parameters, onParametersChange }: Props) {
-  const [expandedSections, setExpandedSections] = useState<
-    Record<string, boolean>
-  >({
-    contributions: false,
-    taxes: false,
-    deductions: false,
-  });
-
-  const handleChange = (field: keyof TaxParameters, value: number) => {
+export function TaxSystemControl({ 
+  title = "Verojärjestelmän parametrit", 
+  parameters, 
+  onParametersChange 
+}: Props) {
+  const handleChange = (field: keyof TaxParameters, value: number | boolean) => {
     onParametersChange({ ...parameters, [field]: value });
   };
 
@@ -36,11 +32,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
   };
 
   const resetStateIncomeTaxTo2026 = () => {
-    handleBracketsChange(taxParameterPresets["2026"].parameters.stateIncomeTaxBrackets);
-  };
-
-  const toggleSection = (section: string) => {
-    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
+    handleBracketsChange(taxParameterPresets["2026_he"].parameters.stateIncomeTaxBrackets);
   };
 
   // Wrapper for InlineInput to work with field-based parameters
@@ -65,20 +57,17 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
   );
 
   return (
-    <Panel 
-      title={title}
-      defaultExpanded={false}
-    >
+    <Panel title={title} defaultExpanded={false}>
       <div className="space-y-2">
-        <CollapsibleSection
-          title="Pakolliset vakuutusmaksut"
-          sectionKey="contributions"
-          isExpanded={expandedSections.contributions}
-          onToggle={toggleSection}
-        >
+        <FoldoutPaneGroup>
+        {/* Pension and Insurance Contributions */}
+        <FoldoutPane groupId="contributions" toggleText="näytä" toggleTitle="Näytä työeläke- ja vakuutusmaksut">
+          <div className="text-sm font-medium text-gray-900 mb-4">
+            Työeläke- ja vakuutusmaksut
+          </div>
           <InputTableContainer className="space-y-4">
             <InputTable title="Työeläkemaksu">
-              <InputTableRow label="Normaali">
+              <InputTableRow label="Normaali (alle 53v)">
                 <FieldInlineInput field="pensionStandardRate" />
               </InputTableRow>
               <InputTableRow label="53–62 -vuotiaat">
@@ -105,24 +94,14 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                 />
               </InputTableRow>
             </InputTable>
-
-            <InputTable title="Sairausvakuutuksen sairaanhoitomaksu">
-              <InputTableRow label="Ansiotulot">
-                <FieldInlineInput field="healthWorkRate" />
-              </InputTableRow>
-              <InputTableRow label="Eläke- ja etuustulot">
-                <FieldInlineInput field="healthOtherRate" />
-              </InputTableRow>
-            </InputTable>
           </InputTableContainer>
-        </CollapsibleSection>
+        </FoldoutPane>
 
-        <CollapsibleSection
-          title="Verot"
-          sectionKey="taxes"
-          isExpanded={expandedSections.taxes}
-          onToggle={toggleSection}
-        >
+        {/* Income Taxes */}
+        <FoldoutPane groupId="income-taxes" toggleText="näytä" toggleTitle="Näytä tuloverot">
+          <div className="text-sm font-medium text-gray-900 mb-4">
+            Tuloverot
+          </div>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between items-center mb-2">
@@ -162,52 +141,68 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                   <FieldInlineInput field="churchRate" />
                 </InputTableRow>
               </InputTable>
-
-              <InputTable title="Yleisradiovero">
-                <InputTableRow label="Veroaste">
-                  <FieldInlineInput field="radioRate" />
-                </InputTableRow>
-                <InputTableRow label="Alaraja">
-                  <FieldInlineInput
-                    field="radioThreshold"
-                    unit="€"
-                    step={100}
-                    width="w-20"
-                  />
-                </InputTableRow>
-                <InputTableRow label="Enimmäismäärä">
-                  <FieldInlineInput
-                    field="radioMaxTax"
-                    unit="€"
-                    step={1}
-                    width="w-16"
-                  />
-                </InputTableRow>
-              </InputTable>
-
-              <InputTable title="Eläketulon lisävero">
-                <InputTableRow label="Veroaste">
-                  <FieldInlineInput field="pensionAdditionalRate" />
-                </InputTableRow>
-                <InputTableRow label="Alaraja">
-                  <FieldInlineInput
-                    field="pensionAdditionalThreshold"
-                    unit="€"
-                    step={1000}
-                    width="w-20"
-                  />
-                </InputTableRow>
-              </InputTable>
             </InputTableContainer>
           </div>
-        </CollapsibleSection>
+        </FoldoutPane>
 
-        <CollapsibleSection
-          title="Vähennykset"
-          sectionKey="deductions"
-          isExpanded={expandedSections.deductions}
-          onToggle={toggleSection}
-        >
+        {/* Other Taxes */}
+        <FoldoutPane groupId="other-taxes" toggleText="näytä" toggleTitle="Näytä muut verot ja maksut">
+          <div className="text-sm font-medium text-gray-900 mb-4">
+            Muut verot ja maksut
+          </div>
+          <InputTableContainer className="space-y-4">
+            <InputTable title="Sairausvakuutuksen sairaanhoitomaksu">
+              <InputTableRow label="Ansiotulot">
+                <FieldInlineInput field="healthWorkRate" />
+              </InputTableRow>
+              <InputTableRow label="Eläke- ja etuustulot">
+                <FieldInlineInput field="healthOtherRate" />
+              </InputTableRow>
+            </InputTable>
+
+            <InputTable title="Yleisradiovero">
+              <InputTableRow label="Veroaste">
+                <FieldInlineInput field="radioRate" />
+              </InputTableRow>
+              <InputTableRow label="Alaraja">
+                <FieldInlineInput
+                  field="radioThreshold"
+                  unit="€"
+                  step={100}
+                  width="w-20"
+                />
+              </InputTableRow>
+              <InputTableRow label="Enimmäismäärä">
+                <FieldInlineInput
+                  field="radioMaxTax"
+                  unit="€"
+                  step={1}
+                  width="w-16"
+                />
+              </InputTableRow>
+            </InputTable>
+
+            <InputTable title="Eläketulon lisävero">
+              <InputTableRow label="Veroaste">
+                <FieldInlineInput field="pensionAdditionalRate" />
+              </InputTableRow>
+              <InputTableRow label="Alaraja">
+                <FieldInlineInput
+                  field="pensionAdditionalThreshold"
+                  unit="€"
+                  step={1000}
+                  width="w-20"
+                />
+              </InputTableRow>
+            </InputTable>
+          </InputTableContainer>
+        </FoldoutPane>
+
+        {/* Deductions */}
+        <FoldoutPane groupId="deductions" toggleText="näytä" toggleTitle="Näytä vähennykset">
+          <div className="text-sm font-medium text-gray-900 mb-4">
+            Vähennykset
+          </div>
           <InputTableContainer className="space-y-4">
             <InputTable title="Tulonhankkimisvähennys">
               <InputTableRow label="Vähimmäismäärä">
@@ -272,10 +267,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                     type="checkbox"
                     checked={parameters.workDeductionEnabled}
                     onChange={(e) =>
-                      onParametersChange({
-                        ...parameters,
-                        workDeductionEnabled: e.target.checked,
-                      })
+                      handleChange("workDeductionEnabled", e.target.checked)
                     }
                     className="mr-1 scale-75"
                   />
@@ -287,7 +279,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                   <InputTableRow label="Perusprosentti">
                     <FieldInlineInput field="workDeductionRate" width="w-16" />
                   </InputTableRow>
-                  <InputTableRow label="Enimmäismäärä">
+                  <InputTableRow label="Enimmäismäärä (alle 65v)">
                     <FieldInlineInput
                       field="workDeductionStandardMax"
                       unit="€"
@@ -295,7 +287,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                       width="w-20"
                     />
                   </InputTableRow>
-                  <InputTableRow label="65 vuotta täyttäneet">
+                  <InputTableRow label="Enimmäismäärä (65v täyttäneet)">
                     <FieldInlineInput
                       field="workDeductionSeniorMax"
                       unit="€"
@@ -311,7 +303,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                       width="w-16"
                     />
                   </InputTableRow>
-                  <InputTableRow label="leikkuri A">
+                  <InputTableRow label="Leikkuri 1 (%)">
                     <FieldInlineInput
                       field="workDeductionReductionRate1"
                       width="w-14"
@@ -325,7 +317,7 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                       width="w-20"
                     />
                   </InputTableRow>
-                  <InputTableRow label="leikkuri B">
+                  <InputTableRow label="Leikkuri 2 (%)">
                     <FieldInlineInput
                       field="workDeductionReductionRate2"
                       width="w-14"
@@ -342,8 +334,25 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
                 </>
               )}
             </InputTable>
+
+            <InputTable title="Ammattiliiton jäsenmaksu">
+              <InputTableRow label="Vähennyskelpoinen">
+                <label className="inline-flex items-center text-xs">
+                  <input
+                    type="checkbox"
+                    checked={parameters.unionFeeDeductible}
+                    onChange={(e) =>
+                      handleChange("unionFeeDeductible", e.target.checked)
+                    }
+                    className="mr-1 scale-75"
+                  />
+                  Kyllä
+                </label>
+              </InputTableRow>
+            </InputTable>
           </InputTableContainer>
-        </CollapsibleSection>
+        </FoldoutPane>
+        </FoldoutPaneGroup>
       </div>
     </Panel>
   );

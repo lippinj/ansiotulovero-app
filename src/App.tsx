@@ -23,7 +23,7 @@ export default function App() {
       <div className="container mx-auto px-4 py-8">
         <PageTitle>Ansiotuloveron asteikko</PageTitle>
 
-        <div className="space-y-8">
+        <div className="space-y-4">
           <TaxRateChartPanel
             demographics={inputs.demographics}
             currentSystemKey={currentSystemKey}
@@ -37,6 +37,30 @@ export default function App() {
             onCurrentSystemChange={setCurrentSystemKey}
             onReferenceSystemChange={setReferenceSystemKey}
           />
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+            <TaxSystemControl
+              title={`Vertailujärjestelmä: ${taxParameterPresets[referenceSystemKey].description}`}
+              parameters={referenceParameters}
+              onParametersChange={(params) => {
+                taxParameterPresets[referenceSystemKey] = {
+                  ...taxParameterPresets[referenceSystemKey],
+                  parameters: params,
+                };
+              }}
+            />
+
+            <TaxSystemControl
+              title={`Vaihtoehtoinen järjestelmä: ${taxParameterPresets[currentSystemKey].description}`}
+              parameters={currentParameters}
+              onParametersChange={(params) => {
+                taxParameterPresets[currentSystemKey] = {
+                  ...taxParameterPresets[currentSystemKey],
+                  parameters: params,
+                };
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
