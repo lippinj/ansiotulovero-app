@@ -42,6 +42,17 @@ export class BasicDeduction {
   }
 }
 
+export class EarnedIncomeDeduction {
+  constructor(private fixedAmount: number = 0) {}
+
+  calculate(context: CalculationContext): number {
+    const { income } = context;
+    
+    // Fixed sum subtracted from pure earned income, but never more than work income
+    return Math.min(this.fixedAmount, income.workIncome);
+  }
+}
+
 export class WorkIncomeDeduction {
   constructor(
     private baseRate: number = 0.18,

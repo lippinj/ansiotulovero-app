@@ -254,6 +254,17 @@ export function TaxSystemControl({ title = "Verojärjestelmän parametrit", para
               </InputTableRow>
             </InputTable>
 
+            <InputTable title="Ansiotulovähennys">
+              <InputTableRow label="Kiinteä määrä">
+                <FieldInlineInput
+                  field="earnedIncomeDeduction"
+                  unit="€"
+                  step={100}
+                  width="w-20"
+                />
+              </InputTableRow>
+            </InputTable>
+
             <InputTable title="Työtulovähennys">
               <InputTableRow label="Käytössä">
                 <label className="inline-flex items-center text-xs">

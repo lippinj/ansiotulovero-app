@@ -19,6 +19,7 @@ import {
   NaturalDeduction,
   PensionIncomeDeduction,
   BasicDeduction,
+  EarnedIncomeDeduction,
   WorkIncomeDeduction,
 } from "./deductions";
 
@@ -41,6 +42,7 @@ export interface TaxBurdenResult {
     pensionIncome: number;
     basic: number;
     unionFee: number;
+    earnedIncome: number;
     total: number;
   };
   taxableEarnedIncome: number;
@@ -63,13 +65,13 @@ export interface TaxCalculationResult extends TaxBurdenResult {
 }
 
 export class TaxSystem {
-  private parameters: TaxParameters;
   private pensionContribution: PensionContribution;
   private unemploymentInsuranceContribution: UnemploymentInsuranceContribution;
   private illnessInsuranceContribution: IllnessInsuranceContribution;
   private naturalDeduction: NaturalDeduction;
   private pensionIncomeDeduction: PensionIncomeDeduction;
   private basicDeduction: BasicDeduction;
+  private earnedIncomeDeduction: EarnedIncomeDeduction;
   private stateIncomeTax: StateIncomeTax;
   private municipalIncomeTax: MunicipalIncomeTax;
   private churchTax: ChurchTax;
@@ -108,9 +110,15 @@ export class TaxSystem {
       params.pensionDeductionBase,
       params.pensionDeductionReductionRate / 100
     );
+    this.earnedIncomeDeduction = new EarnedIncomeDeduction(
+      params.earnedIncomeDeduction
+    );
     this.basicDeduction = new BasicDeduction(
       params.basicDeductionBase,
       params.basicDeductionReductionRate / 100
+    );
+    this.earnedIncomeDeduction = new EarnedIncomeDeduction(
+      params.earnedIncomeDeduction
     );
     this.stateIncomeTax = new StateIncomeTax(stateIncomeTaxBrackets);
     this.municipalIncomeTax = new MunicipalIncomeTax(
@@ -161,7 +169,7 @@ export class TaxSystem {
       pensionContrib + unemploymentContrib + illnessContrib;
 
     // Step 2: Calculate pure earned income
-    const naturalDeduction = this.naturalDeduction.calculate(context);
+    const naturalDeduction = this.naturalDeduction.calculate();
     let pureEarnedIncome = context.totalEarnedIncome - naturalDeduction;
 
     // Step 2.1: Deduct union fees if deductible
@@ -172,6 +180,10 @@ export class TaxSystem {
       );
       pureEarnedIncome = Math.max(0, pureEarnedIncome - unionFeeDeduction);
     }
+
+    // Step 2.2: Apply earned income deduction (fixed sum, but never more than work income)
+    const earnedIncomeDeduction = this.earnedIncomeDeduction.calculate(context);
+    pureEarnedIncome = Math.max(0, pureEarnedIncome - earnedIncomeDeduction);
 
     context.pureEarnedIncome = pureEarnedIncome;
 
@@ -226,11 +238,13 @@ export class TaxSystem {
         pensionIncome: pensionIncomeDeduction,
         basic: basicDeduction,
         unionFee: unionFeeDeduction,
+        earnedIncome: earnedIncomeDeduction,
         total:
           naturalDeduction +
           pensionIncomeDeduction +
           basicDeduction +
-          unionFeeDeduction,
+          unionFeeDeduction +
+          earnedIncomeDeduction,
       },
       taxableEarnedIncome,
       taxes: {

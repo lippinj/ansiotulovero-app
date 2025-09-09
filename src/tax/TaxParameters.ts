@@ -54,6 +54,7 @@ export interface TaxParameters {
   workDeductionReductionRate2: number;
   workDeductionEnabled: boolean;
   unionFeeDeductible: boolean;
+  earnedIncomeDeduction: number;
 }
 
 export interface TaxParameterPreset {
@@ -103,6 +104,8 @@ const kParams2025 = {
 
   basicDeductionBase: 4115,
   basicDeductionReductionRate: 18,
+
+  earnedIncomeDeduction: 0,
 
   workDeductionEnabled: true,
   workDeductionRate: 18,
