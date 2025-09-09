@@ -1,6 +1,13 @@
-import React from "react";
-import { TaxParameters, TaxBracket, taxParameterPresets } from "../../tax/TaxParameters";
-import { InputTable, InputTableRow, InputTableContainer } from "../../base/components/InputTable";
+import {
+  TaxParameters,
+  TaxBracket,
+  taxParameterPresets,
+} from "../../tax/TaxParameters";
+import {
+  InputTable,
+  InputTableRow,
+  InputTableContainer,
+} from "../../base/components/InputTable";
 import { TaxBracketEditor } from "../TaxBracketEditor";
 import { InlineInput } from "../../base/components/InlineInput";
 import { FoldoutPane } from "../../base/components/FoldoutPane";
@@ -17,20 +24,24 @@ interface IncomeTaxSummaryProps {
 
 function IncomeTaxSummary({ parameters }: IncomeTaxSummaryProps) {
   let s = "";
-  
+
   const brackets = parameters.stateIncomeTaxBrackets;
-  const rateList = brackets.map(bracket => `${bracket.rate}%`).join(", ");
-  
+  const rateList = brackets.map((bracket) => `${bracket.rate}%`).join(", ");
+
   s += `Valtion tulovero ${rateList}.`;
-  
+
   s += ` Kunnallisvero ${parameters.municipalRate}%.`;
-  
+
   s += ` Kirkollisvero ${parameters.churchRate}%.`;
-  
+
   return <div className="text-sm text-gray-700">{s}</div>;
 }
 
-export function IncomeTaxConfig({ parameters, onParametersChange, onBracketsChange }: Props) {
+export function IncomeTaxConfig({
+  parameters,
+  onParametersChange,
+  onBracketsChange,
+}: Props) {
   const FieldInlineInput = ({
     field,
     unit = "%",
@@ -52,15 +63,23 @@ export function IncomeTaxConfig({ parameters, onParametersChange, onBracketsChan
   );
 
   const resetStateIncomeTaxTo2025 = () => {
-    onBracketsChange(taxParameterPresets["2025"].parameters.stateIncomeTaxBrackets);
+    onBracketsChange(
+      taxParameterPresets["2025"].parameters.stateIncomeTaxBrackets
+    );
   };
 
   const resetStateIncomeTaxTo2026 = () => {
-    onBracketsChange(taxParameterPresets["2026_he"].parameters.stateIncomeTaxBrackets);
+    onBracketsChange(
+      taxParameterPresets["2026_he"].parameters.stateIncomeTaxBrackets
+    );
   };
 
   return (
-    <FoldoutPane groupId="income-taxes" toggleText="muokkaa" toggleTitle="Muokkaa tuloveroja">
+    <FoldoutPane
+      groupId="income-taxes"
+      toggleText="muokkaa"
+      toggleTitle="Muokkaa tuloveroja"
+    >
       <IncomeTaxSummary parameters={parameters} />
       <div className="space-y-4">
         <div>

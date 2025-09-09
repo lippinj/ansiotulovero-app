@@ -1,4 +1,3 @@
-import React from 'react';
 import { TaxBracket } from '../tax/TaxParameters';
 
 export interface TaxBracketEditorProps {

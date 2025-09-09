@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TaxSystemControl } from "./components/tax-system-control/TaxSystemControl";
 import { taxParameterPresets } from "./tax/TaxParameters";
 import {

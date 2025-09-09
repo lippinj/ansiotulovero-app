@@ -1,4 +1,3 @@
-import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import {
@@ -34,7 +33,7 @@ interface Props {
 export function DemographicsControl({ inputs, onInputsChange }: Props) {
   const handleDemographicsChange = (
     field: keyof TaxpayerCharacteristics,
-    value: any
+    value: number | boolean
   ) => {
     onInputsChange({
       ...inputs,

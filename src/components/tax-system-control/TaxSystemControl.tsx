@@ -1,4 +1,3 @@
-import React from "react";
 import { TaxParameters, TaxBracket } from "../../tax/TaxParameters";
 import { Panel } from "../../base/components/Panel";
 import { FoldoutPaneGroup } from "../../base/components/FoldoutPaneGroup";
@@ -13,12 +12,15 @@ interface Props {
   onParametersChange: (parameters: TaxParameters) => void;
 }
 
-export function TaxSystemControl({ 
-  title = "Verojärjestelmän parametrit", 
-  parameters, 
-  onParametersChange 
+export function TaxSystemControl({
+  title = "Verojärjestelmän parametrit",
+  parameters,
+  onParametersChange,
 }: Props) {
-  const handleChange = (field: keyof TaxParameters, value: number | boolean) => {
+  const handleChange = (
+    field: keyof TaxParameters,
+    value: number | boolean
+  ) => {
     onParametersChange({ ...parameters, [field]: value });
   };
 
@@ -34,18 +36,18 @@ export function TaxSystemControl({
             parameters={parameters}
             onParametersChange={handleChange}
           />
-          
+
           <IncomeTaxConfig
             parameters={parameters}
             onParametersChange={handleChange}
             onBracketsChange={handleBracketsChange}
           />
-          
+
           <OtherTaxesConfig
             parameters={parameters}
             onParametersChange={handleChange}
           />
-          
+
           <DeductionsConfig
             parameters={parameters}
             onParametersChange={handleChange}

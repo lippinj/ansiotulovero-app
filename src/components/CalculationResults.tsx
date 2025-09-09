@@ -1,4 +1,3 @@
-import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxParameters } from "../tax/TaxParameters";

@@ -1,4 +1,3 @@
-import React from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { InlineInput } from "../base/components/InlineInput";
 import { InputGroup, InputGroupItem } from "../base/components/InputGroup";
@@ -9,7 +8,7 @@ interface Props {
   incomeType: "work" | "pension";
   onDemographicsChange: (
     field: keyof TaxpayerCharacteristics,
-    value: any
+    value: number | boolean
   ) => void;
   onIncomeTypeChange: (incomeType: "work" | "pension") => void;
 }

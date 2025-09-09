@@ -1,12 +1,18 @@
-import React from "react";
 import { TaxParameters } from "../../tax/TaxParameters";
-import { InputTable, InputTableRow, InputTableContainer } from "../../base/components/InputTable";
+import {
+  InputTable,
+  InputTableRow,
+  InputTableContainer,
+} from "../../base/components/InputTable";
 import { InlineInput } from "../../base/components/InlineInput";
 import { FoldoutPane } from "../../base/components/FoldoutPane";
 
 interface Props {
   parameters: TaxParameters;
-  onParametersChange: (field: keyof TaxParameters, value: number | boolean) => void;
+  onParametersChange: (
+    field: keyof TaxParameters,
+    value: number | boolean
+  ) => void;
 }
 
 interface DeductionsSummaryProps {
@@ -15,31 +21,31 @@ interface DeductionsSummaryProps {
 
 function DeductionsSummary({ parameters }: DeductionsSummaryProps) {
   let s = "";
-  
+
   s += `Tulonhankkimisvähennys ${parameters.naturalDeductionMin} €.`;
-  
+
   if (parameters.pensionDeductionBase > 0) {
     s += ` Eläketulovähennys ${parameters.pensionDeductionBase} € (vähenee ${parameters.pensionDeductionReductionRate}%).`;
   }
-  
+
   s += ` Perusvähennys ${parameters.basicDeductionBase} € (vähenee ${parameters.basicDeductionReductionRate}%).`;
-  
+
   if (parameters.earnedIncomeDeduction > 0) {
     s += ` Ansiotulovähennys ${parameters.earnedIncomeDeduction} €.`;
   }
-  
+
   if (parameters.workDeductionEnabled) {
     s += ` Työtulovähennys ${parameters.workDeductionRate}% (max ${parameters.workDeductionStandardMax} €).`;
   } else {
     s += " Työtulovähennys ei käytössä.";
   }
-  
+
   if (parameters.unionFeeDeductible) {
     s += " Liittomaksu vähennetään.";
   } else {
     s += " Liittomaksu ei vähennetä.";
   }
-  
+
   return <div className="text-sm text-gray-700">{s}</div>;
 }
 
@@ -65,7 +71,11 @@ export function DeductionsConfig({ parameters, onParametersChange }: Props) {
   );
 
   return (
-    <FoldoutPane groupId="deductions" toggleText="muokkaa" toggleTitle="Muokkaa vähennyksiä">
+    <FoldoutPane
+      groupId="deductions"
+      toggleText="muokkaa"
+      toggleTitle="Muokkaa vähennyksiä"
+    >
       <DeductionsSummary parameters={parameters} />
       <InputTableContainer className="space-y-4">
         <InputTable title="Tulonhankkimisvähennys">

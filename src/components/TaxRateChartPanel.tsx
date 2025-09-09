@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { taxParameterPresets } from "../tax/TaxParameters";
 import { TaxSystem } from "../tax/TaxSystem";
@@ -15,7 +15,7 @@ interface Props {
   referenceSystemKey: string;
   onDemographicsChange: (
     field: keyof TaxpayerCharacteristics,
-    value: any
+    value: number | boolean
   ) => void;
   onCurrentSystemChange: (systemKey: string) => void;
   onReferenceSystemChange: (systemKey: string) => void;

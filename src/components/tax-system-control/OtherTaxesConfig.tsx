@@ -1,6 +1,9 @@
-import React from "react";
 import { TaxParameters } from "../../tax/TaxParameters";
-import { InputTable, InputTableRow, InputTableContainer } from "../../base/components/InputTable";
+import {
+  InputTable,
+  InputTableRow,
+  InputTableContainer,
+} from "../../base/components/InputTable";
 import { InlineInput } from "../../base/components/InlineInput";
 import { FoldoutPane } from "../../base/components/FoldoutPane";
 
@@ -14,17 +17,18 @@ interface OtherTaxesSummaryProps {
 }
 
 function OtherTaxesSummary({ parameters }: OtherTaxesSummaryProps) {
-  
-  const radioText = parameters.radioMaxTax > 0 
-    ? `${parameters.radioRate}% (max ${parameters.radioMaxTax}€)`
-    : "ei käytössä";
-    
+  const radioText =
+    parameters.radioMaxTax > 0
+      ? `${parameters.radioRate}% (max ${parameters.radioMaxTax}€)`
+      : "ei käytössä";
+
   return (
     <div className="text-sm text-gray-700">
-      Sairaanhoito: <span className="font-bold">{parameters.healthWorkRate}%</span> / 
-      <span className="font-bold">{parameters.healthOtherRate}%</span>. 
-      Yleisradio: <span className="font-bold">{radioText}</span>. 
-      Eläkelisävero: <span className="font-bold">{parameters.pensionAdditionalRate}%</span>.
+      Sairaanhoito:{" "}
+      <span className="font-bold">{parameters.healthWorkRate}%</span> /
+      <span className="font-bold">{parameters.healthOtherRate}%</span>.
+      Yleisradio: <span className="font-bold">{radioText}</span>. Eläkelisävero:{" "}
+      <span className="font-bold">{parameters.pensionAdditionalRate}%</span>.
     </div>
   );
 }
@@ -51,7 +55,11 @@ export function OtherTaxesConfig({ parameters, onParametersChange }: Props) {
   );
 
   return (
-    <FoldoutPane groupId="other-taxes" toggleText="muokkaa" toggleTitle="Muokkaa muita veroja ja maksuja">
+    <FoldoutPane
+      groupId="other-taxes"
+      toggleText="muokkaa"
+      toggleTitle="Muokkaa muita veroja ja maksuja"
+    >
       <OtherTaxesSummary parameters={parameters} />
       <InputTableContainer className="space-y-4">
         <InputTable title="Sairausvakuutuksen sairaanhoitomaksu">

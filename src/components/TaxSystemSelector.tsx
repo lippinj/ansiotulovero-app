@@ -1,4 +1,3 @@
-import React from "react";
 import { taxParameterPresets } from "../tax/TaxParameters";
 import { FoldoutPane } from "../base/components/FoldoutPane";
 import { InputGroup, InputGroupItem } from "../base/components/InputGroup";

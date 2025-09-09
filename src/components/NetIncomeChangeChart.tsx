@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import {
   AreaChart,
   Area,
@@ -12,7 +12,6 @@ import {
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxSystem } from "../tax/TaxSystem";
-import { ChartTitle } from "../base/components/ChartTitle";
 import { calculateAxisTicks, generateTicks } from "../base/utils/gridAxisTicks";
 
 interface Props {
@@ -68,7 +67,16 @@ export function NetIncomeChangeChart({
     }
 
     return data;
-  }, [demographics, currentTaxSystem, referenceTaxSystem, incomeType, timeframe, divisor, maxIncome, incomeStep]);
+  }, [
+    demographics,
+    currentTaxSystem,
+    referenceTaxSystem,
+    incomeType,
+    timeframe,
+    divisor,
+    maxIncome,
+    incomeStep,
+  ]);
 
   const formatXAxisTick = (value: number) => {
     if (timeframe === "monthly") {

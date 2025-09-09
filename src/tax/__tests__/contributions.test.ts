@@ -5,7 +5,14 @@ import { TaxpayerCharacteristics } from '../TaxpayerCharacteristics';
 import { IncomeComponents } from '../IncomeComponents';
 
 const createContext = (age: number, workIncome: number): CalculationContext => {
-  const person: TaxpayerCharacteristics = { age, isChurchMember: false, dependentChildren: 0, isSingleParent: false };
+  const person: TaxpayerCharacteristics = { 
+    age, 
+    isChurchMember: false, 
+    dependentChildren: 0, 
+    isSingleParent: false,
+    isUnionMember: false,
+    unionFeePercentage: 0
+  };
   const income = new IncomeComponents(workIncome, 0, 0);
   return new CalculationContext(person, income);
 };

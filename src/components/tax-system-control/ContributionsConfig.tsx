@@ -1,4 +1,3 @@
-import React from "react";
 import { TaxParameters } from "../../tax/TaxParameters";
 import {
   InputTable,

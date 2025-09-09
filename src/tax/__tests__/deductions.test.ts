@@ -11,7 +11,7 @@ const createContext = (
   pureEarnedIncome: number = 45000,
   dependentChildren: number = 0
 ): CalculationContext => {
-  const person: TaxpayerCharacteristics = { age, isChurchMember: false, dependentChildren, isSingleParent: false };
+  const person: TaxpayerCharacteristics = { age, isChurchMember: false, dependentChildren, isSingleParent: false, isUnionMember: false, unionFeePercentage: 0 };
   const income = new IncomeComponents(workIncome, pensionIncome, 0);
   const context = new CalculationContext(person, income);
   context.pureEarnedIncome = pureEarnedIncome;
@@ -21,14 +21,12 @@ const createContext = (
 describe('NaturalDeduction', () => {
   it('returns minimum amount with default parameters', () => {
     const naturalDeduction = new NaturalDeduction();
-    const context = createContext();
-    expect(naturalDeduction.calculate(context)).toBe(750);
+    expect(naturalDeduction.calculate()).toBe(750);
   });
 
   it('uses custom minimum amount', () => {
     const naturalDeduction = new NaturalDeduction(1000);
-    const context = createContext();
-    expect(naturalDeduction.calculate(context)).toBe(1000);
+    expect(naturalDeduction.calculate()).toBe(1000);
   });
 });
 
