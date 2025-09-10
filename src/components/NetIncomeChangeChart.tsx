@@ -183,6 +183,9 @@ export function NetIncomeChangeChart({
               content={<CustomTooltip />}
               wrapperStyle={{ backgroundColor: "transparent", border: "none" }}
               contentStyle={{ backgroundColor: "transparent", border: "none" }}
+              animationDuration={0}
+              isAnimationActive={false}
+              position={{ x: undefined, y: undefined }}
             />
             <ReferenceLine
               y={0}
