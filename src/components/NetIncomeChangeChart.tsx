@@ -85,9 +85,43 @@ export function NetIncomeChangeChart({
     return `${(value / 1000).toFixed(0)}k`;
   };
 
-  const formatTooltip = (value: number) => {
-    const sign = value >= 0 ? "+" : "";
-    return [`${sign}${value.toLocaleString("fi-FI")} €`, "Nettotulojen muutos"];
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      const value = data.netIncomeChange;
+      const sign = value >= 0 ? "+" : "";
+      const color = value >= 0 ? "text-green-700" : "text-red-700";
+
+      return (
+        <div
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+            backdropFilter: "blur(2px)",
+            padding: "12px",
+            border: "1px solid rgb(209, 213, 219)",
+            borderRadius: "6px",
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          }}
+          className="text-gray-900"
+        >
+          <p className="text-sm font-medium mb-2">
+            {`Ansiotulo: ${Number(label).toLocaleString("fi-FI")} €/${timeframe === "monthly" ? "kk" : "v"}`}
+          </p>
+          <div className="flex items-center">
+            <div
+              className={`w-3 h-0.5 mr-2 ${value >= 0 ? "bg-green-600" : "bg-red-600"}`}
+            ></div>
+            <span className={`text-sm font-medium ${color}`}>
+              Nettotulojen muutos: {sign}
+              {value.toLocaleString("fi-FI")} €
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   const xAxisTicks = useMemo(() => {
@@ -146,10 +180,9 @@ export function NetIncomeChangeChart({
               }}
             />
             <Tooltip
-              formatter={formatTooltip}
-              labelFormatter={(value) =>
-                `Ansiotulot: ${Number(value).toLocaleString("fi-FI")} €/${timeframe === "monthly" ? "kk" : "v"}`
-              }
+              content={<CustomTooltip />}
+              wrapperStyle={{ backgroundColor: "transparent", border: "none" }}
+              contentStyle={{ backgroundColor: "transparent", border: "none" }}
             />
             <ReferenceLine
               y={0}

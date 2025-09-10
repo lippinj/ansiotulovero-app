@@ -85,17 +85,48 @@ export function TaxRateChart({
     return ticks;
   }, [timeframe, maxIncome]);
 
-  const formatTooltip = (value: number, name: string) => {
-    if (name === "income") {
-      return [`${value.toLocaleString("fi-FI")} €`, "Ansiotulo"];
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+
+      return (
+        <div
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+            backdropFilter: "blur(2px)",
+            padding: "12px",
+            border: "1px solid rgb(209, 213, 219)",
+            borderRadius: "6px",
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          }}
+          className="text-gray-900"
+        >
+          <p className="text-sm font-medium mb-2">
+            {`Ansiotulo: ${Number(label).toLocaleString("fi-FI")} €/${timeframe === "monthly" ? "kk" : "v"}`}
+          </p>
+          <div className="space-y-1">
+            <div className="flex items-center">
+              <div className="w-3 h-0.5 bg-red-700 mr-2"></div>
+              <span className="text-sm">
+                Rajaveroaste: {data.referenceMarginalTaxRate.toFixed(1)}% →{" "}
+                {data.currentMarginalTaxRate.toFixed(1)}%
+              </span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-0.5 bg-blue-800 mr-2"></div>
+              <span className="text-sm">
+                Keskimääräinen veroaste:{" "}
+                {data.referenceEffectiveTaxRate.toFixed(1)}% →{" "}
+                {data.currentEffectiveTaxRate.toFixed(1)}%
+              </span>
+            </div>
+          </div>
+        </div>
+      );
     }
-    const nameMap: Record<string, string> = {
-      currentEffectiveTaxRate: "Uusi kokonaisveroaste",
-      currentMarginalTaxRate: "Uusi marginaaliveroaste",
-      referenceEffectiveTaxRate: "Vertailu kokonaisveroaste",
-      referenceMarginalTaxRate: "Vertailu marginaaliveroaste",
-    };
-    return [`${value.toFixed(2)} %`, nameMap[name] || name];
+
+    return null;
   };
 
   const formatXAxisTick = (value: number) => {
@@ -138,10 +169,9 @@ export function TaxRateChart({
               }}
             />
             <Tooltip
-              formatter={formatTooltip}
-              labelFormatter={(value) =>
-                `Ansiotulo: ${Number(value).toLocaleString("fi-FI")} €/${timeframe === "monthly" ? "kk" : "v"}`
-              }
+              content={<CustomTooltip />}
+              wrapperStyle={{ backgroundColor: "transparent", border: "none" }}
+              contentStyle={{ backgroundColor: "transparent", border: "none" }}
             />
             <Legend verticalAlign="top" height={36} />
             <Line
