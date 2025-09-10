@@ -104,7 +104,7 @@ export function TaxRateChart({
 
   return (
     <div>
-      <div className="h-128">
+      <div className="h-84 sm:h-96 md:h-106 lg:h-128">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}

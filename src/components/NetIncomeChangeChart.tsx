@@ -110,7 +110,7 @@ export function NetIncomeChangeChart({
 
   return (
     <div>
-      <div className="h-84">
+      <div className="h-48 sm:h-56 md:h-64 lg:h-72">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
@@ -138,7 +138,7 @@ export function NetIncomeChangeChart({
               width={70}
               ticks={yAxisTicks}
               label={{
-                value: `Nettotulojen muutos (eur/${timeframe === "monthly" ? "kk" : "v"})`,
+                value: `Δ nettotulot (eur/${timeframe === "monthly" ? "kk" : "v"})`,
                 angle: -90,
                 position: "insideLeft",
                 offset: -5,
