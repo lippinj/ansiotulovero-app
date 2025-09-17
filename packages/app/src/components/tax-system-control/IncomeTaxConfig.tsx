@@ -7,10 +7,10 @@ import {
   InputTable,
   InputTableRow,
   InputTableContainer,
-} from "../../base/components/InputTable";
+} from "base";
 import { TaxBracketEditor } from "../TaxBracketEditor";
-import { InlineInput } from "../../base/components/InlineInput";
-import { FoldoutPane } from "../../base/components/FoldoutPane";
+import { InlineInput } from "base";
+import { FoldoutPane } from "base";
 
 interface Props {
   parameters: TaxParameters;

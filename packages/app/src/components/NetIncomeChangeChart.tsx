@@ -12,7 +12,7 @@ import {
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxSystem } from "../tax/TaxSystem";
-import { calculateAxisTicks, generateTicks } from "../base/utils/gridAxisTicks";
+import { calculateAxisTicks, generateTicks } from "base";
 
 interface Props {
   demographics: TaxpayerCharacteristics;

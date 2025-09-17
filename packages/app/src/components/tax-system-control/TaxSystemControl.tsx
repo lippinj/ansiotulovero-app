@@ -1,6 +1,6 @@
 import { TaxParameters, TaxBracket } from "../../tax/TaxParameters";
-import { Panel } from "../../base/components/Panel";
-import { FoldoutPaneGroup } from "../../base/components/FoldoutPaneGroup";
+import { Panel } from "base";
+import { FoldoutPaneGroup } from "base";
 import { ContributionsConfig } from "./ContributionsConfig";
 import { IncomeTaxConfig } from "./IncomeTaxConfig";
 import { OtherTaxesConfig } from "./OtherTaxesConfig";

@@ -6,7 +6,7 @@ import {
   defaultUserInputs,
 } from "./components/DemographicsControl";
 import { TaxRateChartPanel } from "./components/TaxRateChartPanel";
-import { PageTitle } from "./base/components/PageTitle";
+import { PageTitle } from "base";
 
 export default function App() {
   const [referenceSystemKey, setReferenceSystemKey] =
