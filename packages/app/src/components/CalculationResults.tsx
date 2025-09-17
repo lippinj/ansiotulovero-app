@@ -2,7 +2,7 @@ import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
 import { IncomeComponents } from "../tax/IncomeComponents";
 import { TaxParameters } from "../tax/TaxParameters";
 import { TaxSystem } from "../tax/TaxSystem";
-import { Panel } from "../base/components/Panel";
+import { Panel } from "base";
 
 interface Props {
   title?: string;

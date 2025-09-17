@@ -3,9 +3,9 @@ import {
   InputTable,
   InputTableRow,
   InputTableContainer,
-} from "../../base/components/InputTable";
-import { InlineInput } from "../../base/components/InlineInput";
-import { FoldoutPane } from "../../base/components/FoldoutPane";
+} from "base";
+import { InlineInput } from "base";
+import { FoldoutPane } from "base";
 
 interface Props {
   parameters: TaxParameters;

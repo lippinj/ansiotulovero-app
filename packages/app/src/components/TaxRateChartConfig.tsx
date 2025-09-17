@@ -1,7 +1,7 @@
 import { TaxpayerCharacteristics } from "../tax/TaxpayerCharacteristics";
-import { InlineInput } from "../base/components/InlineInput";
-import { InputGroup, InputGroupItem } from "../base/components/InputGroup";
-import { FoldoutPane } from "../base/components/FoldoutPane";
+import { InlineInput } from "base";
+import { InputGroup, InputGroupItem } from "base";
+import { FoldoutPane } from "base";
 
 interface Props {
   demographics: TaxpayerCharacteristics;

@@ -4,9 +4,9 @@ import {
   InputTable,
   InputTableRow,
   InputTableContainer,
-} from "../base/components/InputTable";
-import { InlineInput } from "../base/components/InlineInput";
-import { Panel } from "../base/components/Panel";
+} from "base";
+import { InlineInput } from "base";
+import { Panel } from "base";
 
 export interface UserInputs {
   demographics: TaxpayerCharacteristics;
